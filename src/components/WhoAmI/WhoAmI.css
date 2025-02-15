@@ -1,0 +1,125 @@
+.img-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+
+  /* was :nth-child(3n) */
+  & > :nth-child(1),
+  & > :nth-child(4),
+  & > :nth-child(7),
+  & > :nth-child(11),
+  & > :nth-child(14) {
+    --group: 0;
+  }
+
+  /* was :nth-child(3n + 1) */
+  & > :nth-child(3),
+  & > :nth-child(5),
+  & > :nth-child(6),
+  & > :nth-child(9),
+  & > :nth-child(12) {
+    --group: 1;
+  }
+
+  /* was :nth-child(3n + 2) */
+  & > :nth-child(2),
+  & > :nth-child(8),
+  & > :nth-child(10),
+  & > :nth-child(13),
+  & > :nth-child(15) {
+    --group: 2;
+  }
+
+  & > img {
+    opacity: 0.5;
+    filter: grayscale(1);
+    animation: fade-in-color 10s linear infinite;
+    animation-delay: calc(3s * var(--group));
+  }
+
+  /* last row */
+  & > :nth-child(n + 11):nth-child(-n + 15) {
+    mask-image: linear-gradient(#000 50%, transparent);
+    -webkit-mask-image: linear-gradient(#000 50%, transparent);
+  }
+}
+
+@keyframes fade-in-color {
+  0% {
+    opacity: 0.5;
+    filter: grayscale(1);
+  }
+  11%,
+  33% {
+    opacity: 1;
+    filter: grayscale(0);
+  }
+  44%,
+  100% {
+    opacity: 0.5;
+    filter: grayscale(1);
+  }
+}
+
+.img-hero {
+  border-radius: 50%;
+  max-width: 50%;
+  margin-inline: auto;
+  margin-top: -25%;
+  margin-bottom: 1em;
+  filter: drop-shadow(0 0 5px var(--txt-primary));
+}
+
+@supports (animation-timeline: view()) {
+  .img-hero {
+    animation: hero-img-animation linear forwards;
+    animation-timeline: view();
+    animation-range: exit;
+    transform-origin: bottom;
+  }
+}
+
+@keyframes hero-img-animation {
+  from {
+    opacity: 1;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 1.5;
+  }
+}
+
+.text-hero {
+  width: 40%;
+  margin-inline: auto;
+  font-size: var(--fs-xl);
+  margin-bottom: 1.5em;
+
+  & > p:last-child {
+    text-align: end;
+
+    & > span {
+      color: var(--txt-accent);
+      font-size: 1.2em;
+    }
+  }
+}
+
+.tags-title {
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5em;
+  padding-inline: 2em;
+}
+
+.tag-item {
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  background-color: hsl(from currentColor h s l / 0.2);
+}
